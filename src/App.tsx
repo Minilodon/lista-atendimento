@@ -25,6 +25,12 @@ function App() {
     setWorkers(workersArray)
   }
 
+  const deleteWorker = (workerId: string) => {
+    const workersArray = [...workers]
+    const filteredWorkers = workersArray.filter(({id}) => workerId !== id)
+    setWorkers(filteredWorkers)
+  }
+
   return (
     <div className="w-sceen h-screen bg-red-300 flex flex-col items-center justify-center">
       <Button variant="outlined" onClick={addWorker}>Adicionar funcionário</Button>
@@ -33,7 +39,7 @@ function App() {
           <li key={worker.id} className='flex items-center gap-x-2'>
             <span>{index+1}</span>
             <span>{worker.name}</span>
-            <Fab color="error" aria-label="deletar" size='small'>
+            <Fab color="error" aria-label="deletar" size='small' onClick={() => deleteWorker(worker.id)}>
               <ClearIcon />
             </Fab>
           </li>
