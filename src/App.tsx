@@ -8,17 +8,26 @@ interface Worker {
 }
 
 function App() {
-  const [workers, setWorkers] = useState<Worker[]>([{id: '1', name: 'Josias'}, {id: '2', name: 'Josie'}])
+  const [workers, setWorkers] = useState<Worker[]>([])
 
   const addWorker = useCallback(() => {
     const newWorker: Worker = {id: faker.string.uuid(), name: faker.person.firstName()}
     setWorkers([...workers, newWorker])
   },[workers])
 
+  const putFirstToLastPosition = () => {
+    if(workers.length === 0) return
+    const workersArray = [...workers]
+    const firstWorker = workersArray.shift()
+    workersArray.push(firstWorker!)
+    setWorkers(workersArray)
+  }
+
   return (
     <div className="w-sceen h-screen bg-red-300 flex flex-col items-center justify-center">
       <Button variant="outlined" onClick={addWorker}>Adicionar funcionário</Button>
-      <ol>{workers.map((worker) => <li key={worker.id}>{worker.name}</li>)}</ol>
+      <ol>{workers.map((worker, index) => <li key={worker.id}>{index+1} {worker.name}</li>)}</ol>
+      <Button variant="outlined" onClick={putFirstToLastPosition}>Próximo</Button>
     </div>
   )
 }
