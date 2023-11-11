@@ -31,3 +31,4 @@ If you are developing a production application, we recommend updating the config
 - Material UI (https://mui.com/material-ui/getting-started/installation/)
 - Tailwind CSS (https://tailwindcss.com/docs/guides/vite)
 - FakerJs (https://www.npmjs.com/package/@faker-js/faker)
+- Material Icons (https://mui.com/material-ui/material-icons/)
