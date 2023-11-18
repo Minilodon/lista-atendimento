@@ -1,19 +1,6 @@
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import { useWorkersContext } from '../../../contexts/Workers/WorkersContext';
-
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  boxShadow: 24,
-  p: 4,
-};
-
+import { TextField } from '@mui/material';
+import { useState } from 'react';
 interface Props {
     showModal: boolean;
     closeModal: () => void
@@ -21,10 +8,12 @@ interface Props {
 
 export default function CreateModal(props: Props) {
     const {closeModal, showModal} = props
-    const { setSelectedWorker } = useWorkersContext()
+    const [userName, setUserName] = useState('')
+    const [error, setError] = useState(false)
 
     const resetWorker = () => {
-      setSelectedWorker(undefined)
+      setUserName('')
+      setError(false)
       closeModal()
     }
 
@@ -34,21 +23,33 @@ export default function CreateModal(props: Props) {
         open={showModal}
         onClose={resetWorker}
       >
-        <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
+        <div className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[400px] bg-slate-100 shadow-lg p-3 flex flex-col'>
+          <span className='mb-3'>
             Criar usuário
-          </Typography>
-          <div>
-            <span>Nome</span>
-            <input />
+          </span>
+          <div className='flex flex-col'>
+            <TextField
+              label="Nome"
+              value={userName}
+              error={error}
+              onChange={(event) => {
+                setError(false)
+                setUserName(event.target.value)
+              }}
+              />
+              {error && <span>Campo obrigatório</span>}
           </div>
           <div className='flex items-center justify-between'>
             <button onClick={() => {
+              if(userName.length <= 0){
+                setError(true)
+                return
+              }
               resetWorker()
             }}>Sim</button>
             <button onClick={resetWorker}>Cancelar</button>
           </div>
-        </Box>
+            </div>
       </Modal>
     </div>
   );
