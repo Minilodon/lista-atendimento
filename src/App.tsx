@@ -5,11 +5,13 @@ import Fab from '@mui/material/Fab';
 import ClearIcon from '@mui/icons-material/Clear';
 import { useModalContext } from './contexts/Modal/ModalContext';
 import { Worker } from './types/Worker';
+import { useWorkersContext } from './contexts/Workers/WorkersContext';
 
 
 function App() {
-  const {openDeleteModal, setSelectedWorker} = useModalContext()
   const [workers, setWorkers] = useState<Worker[]>([])
+  const {openDeleteModal} = useModalContext()
+  const {setSelectedWorker} = useWorkersContext()
 
   const addWorker = useCallback(() => {
     const newWorker: Worker = {id: faker.string.uuid(), name: faker.person.firstName()}

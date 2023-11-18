@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import { useModalContext } from '../../../contexts/Modal/ModalContext';
+import { useWorkersContext } from '../../../contexts/Workers/WorkersContext';
 
 const style = {
   position: 'absolute',
@@ -21,12 +21,20 @@ interface Props {
 
 export default function DeleteModal(props: Props) {
     const {closeModal, showModal} = props
-    const { selectedWorker } = useModalContext()
+    const { selectedWorker, setSelectedWorker } = useWorkersContext()
+
+    const resetWorker = () => {
+      setSelectedWorker(undefined)
+    }
+
   return (
     <div>
       <Modal
         open={showModal}
-        onClose={closeModal}
+        onClose={() => {
+          resetWorker()
+          closeModal()
+        }}
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
@@ -34,7 +42,10 @@ export default function DeleteModal(props: Props) {
           </Typography>
           <div className='flex items-center justify-between'>
             <button>Sim</button>
-            <button onClick={closeModal}>Cancelar</button>
+            <button onClick={() => {
+          resetWorker()
+          closeModal()
+        }}>Cancelar</button>
           </div>
         </Box>
       </Modal>
