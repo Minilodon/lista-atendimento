@@ -8,7 +8,7 @@ import { useWorkersContext } from './contexts/Workers/WorkersContext';
 function App() {
   
   const {openDeleteModal, openCreateModal} = useModalContext()
-  const {setSelectedWorker, workers, putFirstToLastPosition} = useWorkersContext()
+  const {setSelectedWorker, workers, putFirstToLastPosition, cleanList} = useWorkersContext()
 
 
   return (
@@ -29,6 +29,7 @@ function App() {
         )}
       </ol>
       <Button variant="contained" onClick={putFirstToLastPosition}>Próximo</Button>
+      {workers.length > 0 && <Button variant="contained" onClick={cleanList}>Limpar lista</Button>}
     </div>
   )
 }

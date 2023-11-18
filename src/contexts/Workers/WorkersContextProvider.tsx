@@ -10,6 +10,7 @@ interface WorkersContextValue {
   addWorker: (name: string) => void
   putFirstToLastPosition: () => void
   deleteWorker: (workerId: string) => void
+  cleanList: () => void
 }
 
 export const WorkersContext = createContext<WorkersContextValue>(
@@ -44,6 +45,10 @@ export default function WorkersContextProvider(props: WorkersContextProviderProp
     const filteredWorkers = workersArray.filter(({id}) => workerId !== id)
     setWorkers(filteredWorkers)
   },[workers])
+
+  const cleanList = useCallback(() => {
+    setWorkers([])
+  },[])
     
   const value: WorkersContextValue = React.useMemo(() => ({
     selectedWorker,
@@ -52,8 +57,9 @@ export default function WorkersContextProvider(props: WorkersContextProviderProp
     setWorkers, 
     addWorker,
     putFirstToLastPosition,
-    deleteWorker
-  }), [addWorker, deleteWorker, putFirstToLastPosition, selectedWorker, workers]);
+    deleteWorker,
+    cleanList
+  }), [addWorker, cleanList, deleteWorker, putFirstToLastPosition, selectedWorker, workers]);
 
   return (
     <WorkersContext.Provider value={value}>
