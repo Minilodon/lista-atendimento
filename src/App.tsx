@@ -28,7 +28,7 @@ function App() {
           </li>
         )}
       </ol>
-      <Button variant="contained" onClick={putFirstToLastPosition}>Próximo</Button>
+      {workers.length > 0 && <Button variant="contained" onClick={putFirstToLastPosition}>Próximo</Button>}
       {workers.length > 0 && <Button variant="contained" onClick={cleanList}>Limpar lista</Button>}
     </div>
   )
