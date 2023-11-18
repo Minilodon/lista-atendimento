@@ -7,7 +7,7 @@ interface WorkersContextValue {
   setSelectedWorker: React.Dispatch<React.SetStateAction<Worker | undefined>>
   workers: Worker[]
   setWorkers: React.Dispatch<React.SetStateAction<Worker[]>>
-  addWorker: () => void
+  addWorker: (name: string) => void
   putFirstToLastPosition: () => void
   deleteWorker: (workerId: string) => void
 }
@@ -26,8 +26,8 @@ export default function WorkersContextProvider(props: WorkersContextProviderProp
   const [workers, setWorkers] = useState<Worker[]>([])
   const [selectedWorker, setSelectedWorker] = useState<Worker>()
 
-  const addWorker = useCallback(() => {
-    const newWorker: Worker = {id: faker.string.uuid(), name: faker.person.firstName()}
+  const addWorker = useCallback((name: string) => {
+    const newWorker: Worker = {id: faker.string.uuid(), name}
     setWorkers([...workers, newWorker])
   },[workers])
 

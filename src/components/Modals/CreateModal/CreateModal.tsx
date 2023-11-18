@@ -1,6 +1,7 @@
 import Modal from '@mui/material/Modal';
 import { TextField } from '@mui/material';
 import { useState } from 'react';
+import { useWorkersContext } from '../../../contexts/Workers/WorkersContext';
 interface Props {
     showModal: boolean;
     closeModal: () => void
@@ -8,11 +9,14 @@ interface Props {
 
 export default function CreateModal(props: Props) {
     const {closeModal, showModal} = props
-    const [userName, setUserName] = useState('')
+
+    const [username, setUsername] = useState('')
     const [error, setError] = useState(false)
 
+    const {addWorker} = useWorkersContext()
+
     const resetWorker = () => {
-      setUserName('')
+      setUsername('')
       setError(false)
       closeModal()
     }
@@ -30,21 +34,22 @@ export default function CreateModal(props: Props) {
           <div className='flex flex-col'>
             <TextField
               label="Nome"
-              value={userName}
+              value={username}
               error={error}
               onChange={(event) => {
                 setError(false)
-                setUserName(event.target.value)
+                setUsername(event.target.value)
               }}
               />
               {error && <span>Campo obrigatório</span>}
           </div>
           <div className='flex items-center justify-between'>
             <button onClick={() => {
-              if(userName.length <= 0){
+              if(username.length <= 0){
                 setError(true)
                 return
               }
+              addWorker(username)
               resetWorker()
             }}>Sim</button>
             <button onClick={resetWorker}>Cancelar</button>
