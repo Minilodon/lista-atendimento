@@ -7,13 +7,13 @@ import { useWorkersContext } from './contexts/Workers/WorkersContext';
 
 function App() {
   
-  const {openDeleteModal} = useModalContext()
-  const {setSelectedWorker, workers, addWorker, putFirstToLastPosition} = useWorkersContext()
+  const {openDeleteModal, openCreateModal} = useModalContext()
+  const {setSelectedWorker, workers, putFirstToLastPosition} = useWorkersContext()
 
 
   return (
     <div className="w-sceen h-screen bg-red-300 flex flex-col items-center justify-center">
-      <Button variant="contained" onClick={addWorker}>Adicionar funcionário</Button>
+      <Button variant="contained" onClick={openCreateModal}>Adicionar funcionário</Button>
       <ol>
         {workers.map((worker, index) => 
           <li key={worker.id} className='flex items-center gap-x-2'>
