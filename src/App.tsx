@@ -13,7 +13,7 @@ function App() {
 
   return (
     <div className="w-sceen h-screen bg-red-300 flex flex-col items-center justify-center">
-      <Button variant="outlined" onClick={addWorker}>Adicionar funcionário</Button>
+      <Button variant="contained" onClick={addWorker}>Adicionar funcionário</Button>
       <ol>
         {workers.map((worker, index) => 
           <li key={worker.id} className='flex items-center gap-x-2'>

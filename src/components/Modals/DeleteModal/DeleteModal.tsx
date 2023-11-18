@@ -21,31 +21,29 @@ interface Props {
 
 export default function DeleteModal(props: Props) {
     const {closeModal, showModal} = props
-    const { selectedWorker, setSelectedWorker } = useWorkersContext()
+    const { selectedWorker, setSelectedWorker, deleteWorker } = useWorkersContext()
 
     const resetWorker = () => {
       setSelectedWorker(undefined)
+      closeModal()
     }
 
   return (
     <div>
       <Modal
         open={showModal}
-        onClose={() => {
-          resetWorker()
-          closeModal()
-        }}
+        onClose={resetWorker}
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
             Remover {selectedWorker?.name} da lista?
           </Typography>
           <div className='flex items-center justify-between'>
-            <button>Sim</button>
             <button onClick={() => {
-          resetWorker()
-          closeModal()
-        }}>Cancelar</button>
+              deleteWorker(selectedWorker!.id)
+              resetWorker()
+            }}>Sim</button>
+            <button onClick={resetWorker}>Cancelar</button>
           </div>
         </Box>
       </Modal>
