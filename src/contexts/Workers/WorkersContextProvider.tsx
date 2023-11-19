@@ -11,6 +11,8 @@ interface WorkersContextValue {
   putFirstToLastPosition: () => void
   deleteWorker: (workerId: string) => void
   cleanList: () => void
+  workersInService: Worker[]
+  attendCustomer: () => void;
 }
 
 export const WorkersContext = createContext<WorkersContextValue>(
@@ -25,6 +27,7 @@ export default function WorkersContextProvider(props: WorkersContextProviderProp
   const { children } = props;
 
   const [workers, setWorkers] = useState<Worker[]>([])
+  const [workersInService, setWorkersInService] = useState<Worker[]>([])
   const [selectedWorker, setSelectedWorker] = useState<Worker>()
 
   const addWorker = useCallback((name: string) => {
@@ -39,6 +42,14 @@ export default function WorkersContextProvider(props: WorkersContextProviderProp
     workersArray.push(firstWorker!)
     setWorkers(workersArray)
   },[workers])
+
+  const attendCustomer = useCallback(() => {
+    if(workers.length === 0) return
+    const workersArray = [...workers]
+    const firstWorker = workersArray.shift()
+    setWorkers(workersArray)
+    setWorkersInService([...workersInService, firstWorker!])
+  },[workers, workersInService])
 
   const deleteWorker = useCallback((workerId: string) => {
     const workersArray = [...workers]
@@ -58,8 +69,10 @@ export default function WorkersContextProvider(props: WorkersContextProviderProp
     addWorker,
     putFirstToLastPosition,
     deleteWorker,
-    cleanList
-  }), [addWorker, cleanList, deleteWorker, putFirstToLastPosition, selectedWorker, workers]);
+    cleanList,
+    workersInService,
+    attendCustomer,
+  }), [addWorker, attendCustomer, cleanList, deleteWorker, putFirstToLastPosition, selectedWorker, workers, workersInService]);
 
   return (
     <WorkersContext.Provider value={value}>

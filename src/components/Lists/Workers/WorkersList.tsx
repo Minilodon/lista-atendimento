@@ -5,7 +5,7 @@ import { useWorkersContext } from "../../../contexts/Workers/WorkersContext";
 
 function WorkersList() {
 const {openDeleteModal, openCreateModal} = useModalContext()
-  const {setSelectedWorker, workers, putFirstToLastPosition, cleanList} = useWorkersContext()
+  const {setSelectedWorker, workers, putFirstToLastPosition, cleanList, attendCustomer} = useWorkersContext()
   return (
     <div className='bg-slate-400 flex flex-col items-center justify-center flex-1'>
       <span>Ordem de atendimento</span>
@@ -25,6 +25,7 @@ const {openDeleteModal, openCreateModal} = useModalContext()
         )}
       </ol>
       {workers.length > 0 && <Button variant="contained" onClick={putFirstToLastPosition}>Próximo</Button>}
+      {workers.length > 0 && <Button variant="contained" onClick={attendCustomer}>Atender cliente</Button>}
       {workers.length > 0 && <Button variant="contained" onClick={cleanList}>Limpar lista</Button>}
       </div>
   )
