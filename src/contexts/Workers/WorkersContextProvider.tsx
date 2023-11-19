@@ -13,6 +13,7 @@ interface WorkersContextValue {
   cleanList: () => void
   workersInService: Worker[]
   attendCustomer: () => void;
+  finishService: (workerId: string) => void
 }
 
 export const WorkersContext = createContext<WorkersContextValue>(
@@ -57,6 +58,16 @@ export default function WorkersContextProvider(props: WorkersContextProviderProp
     setWorkers(filteredWorkers)
   },[workers])
 
+  const finishService = useCallback((workerId: string) => {
+    const foundWorkerInService = workersInService.find(({id}) => id === workerId)
+    if(!foundWorkerInService || !workersInService.length) return
+    const filteredWorkersInService = workersInService.filter(({id}) => id !== workerId)
+    const workersArray = [...workers]
+    setWorkersInService(filteredWorkersInService)
+    workersArray.push(foundWorkerInService)
+    setWorkers(workersArray)
+  },[workers, workersInService])
+
   const cleanList = useCallback(() => {
     setWorkers([])
   },[])
@@ -72,7 +83,8 @@ export default function WorkersContextProvider(props: WorkersContextProviderProp
     cleanList,
     workersInService,
     attendCustomer,
-  }), [addWorker, attendCustomer, cleanList, deleteWorker, putFirstToLastPosition, selectedWorker, workers, workersInService]);
+    finishService
+  }), [addWorker, attendCustomer, cleanList, deleteWorker, finishService, putFirstToLastPosition, selectedWorker, workers, workersInService]);
 
   return (
     <WorkersContext.Provider value={value}>

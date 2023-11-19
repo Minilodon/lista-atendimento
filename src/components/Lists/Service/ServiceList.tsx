@@ -1,11 +1,9 @@
 import { Check } from "@mui/icons-material"
-import { useModalContext } from "../../../contexts/Modal/ModalContext"
 import { useWorkersContext } from "../../../contexts/Workers/WorkersContext"
 import { Fab } from "@mui/material"
 
 function ServiceList() {
-const {openDeleteModal} = useModalContext()
-  const {setSelectedWorker, workersInService} = useWorkersContext()
+  const { workersInService, finishService } = useWorkersContext()
   return (
     <div className='bg-red-500 flex flex-col items-center justify-center flex-1'>
       <span>Em atendimento</span>
@@ -15,8 +13,7 @@ const {openDeleteModal} = useModalContext()
             <span>{index+1}</span>
             <span>{worker.name}</span>
             <Fab color="success" aria-label="deletar" size='small' onClick={() => {
-              setSelectedWorker(worker)
-              openDeleteModal()
+                finishService(worker.id)
             }} style={{zIndex: 0}}>
               <Check />
             </Fab>
