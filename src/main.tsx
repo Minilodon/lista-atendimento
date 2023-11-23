@@ -2,12 +2,12 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import './index.css'
 import {createBrowserRouter, RouterProvider} from 'react-router-dom'
-import AppProvider from './contexts/AppProvider.tsx'
+import Login from './pages/Login/Login.tsx'
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <AppProvider />
+    element: <Login />
   }
 ])
 
