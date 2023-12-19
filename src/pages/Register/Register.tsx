@@ -2,7 +2,7 @@ import { TextField } from "@mui/material"
 import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { auth } from "../../services/firebaseConfig";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../contexts/Auth/AuthContext";
 
 function Register() {
@@ -12,11 +12,10 @@ function Register() {
   const [passwordError, setPasswordError] = useState('')
   const [
     createUserWithEmailAndPassword,
-    user,
     loading,
-    error,
   ] = useCreateUserWithEmailAndPassword(auth);
   const { currentUser } = useAuthContext()
+  const navigate = useNavigate()
 
   const handleCreateAccount = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -25,10 +24,8 @@ function Register() {
       return
     }
     try {
-      const createdUser = await createUserWithEmailAndPassword(email, password)
-      console.log({createdUser})
-      console.log({user})
-      console.log({error})
+      await createUserWithEmailAndPassword(email, password)
+      navigate('/')
     } catch (error) {
       console.log(error)
     }
