@@ -1,8 +1,9 @@
-import { UserCredential } from 'firebase/auth';
-import React, { ReactNode, createContext, useState } from 'react';
+import { User } from 'firebase/auth';
+import React, { ReactNode, createContext, useEffect, useState } from 'react';
+import { auth } from '../../services/firebaseConfig'
 
 interface AuthContextValue {
-  currentUser: UserCredential | undefined
+  currentUser: User | null
 }
 
 export const AuthContext = createContext<AuthContextValue>(
@@ -15,7 +16,18 @@ type AuthContextProviderProps = {
 
 export default function AuthContextProvider(props: AuthContextProviderProps) {
   const { children } = props;
-  const [currentUser, setCurrentUser] = useState<UserCredential>()
+  const [currentUser, setCurrentUser] = useState<User | null>(null)
+  const [loading, setLoading] = useState(true)
+
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged(user => {
+      setCurrentUser(user)
+      setLoading(false)
+    })
+
+    return unsubscribe
+  },[])
   
     
   const value: AuthContextValue = React.useMemo(() => ({
@@ -24,7 +36,7 @@ export default function AuthContextProvider(props: AuthContextProviderProps) {
 
   return (
     <AuthContext.Provider value={value}>
-      {children}
+      {!loading && children}
     </AuthContext.Provider>
   );
 }
