@@ -32,3 +32,7 @@ If you are developing a production application, we recommend updating the config
 - Tailwind CSS (https://tailwindcss.com/docs/guides/vite)
 - FakerJs (https://www.npmjs.com/package/@faker-js/faker)
 - Material Icons (https://mui.com/material-ui/material-icons/)
+- React Router Dom (https://reactrouter.com/en/main)
+- BiomeJs (https://github.com/biomejs/biome)
+- Firebase (https://firebase.google.com/?hl=pt)
+- React Firebase Hooks (https://github.com/CSFrequency/react-firebase-hooks/blob/master/firestore/README.md)
