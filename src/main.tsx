@@ -4,7 +4,7 @@ import "./index.css";
 import AuthContextProvider from "./contexts/Auth/AuthContextProvider.tsx";
 import Routes from "./Routes.tsx";
 
-const rootElement = document.getElementById("body");
+const rootElement = document.getElementById("root");
 
 if (rootElement) {
 	ReactDOM.createRoot(rootElement).render(
