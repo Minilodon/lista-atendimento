@@ -25,7 +25,6 @@ export default function AuthContextProvider(props: AuthContextProviderProps) {
       setCurrentUser(user)
       setLoading(false)
     })
-
     return unsubscribe
   },[])
   

@@ -11,12 +11,15 @@ function Login() {
     signInWithEmailAndPassword,
     user,
     loading,
-    error,
   ] = useSignInWithEmailAndPassword(auth);
 
-  const handleSignIn = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSignIn = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    signInWithEmailAndPassword(email, password)
+    try {
+      await signInWithEmailAndPassword(email, password)
+    } catch (error) {
+      console.log(error)
+    }
   }
   console.log(user)
   return (

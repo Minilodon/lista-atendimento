@@ -1,10 +1,10 @@
-import { Login } from '@mui/icons-material'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import Register from './pages/Register/Register'
 import RecoverPassword from './pages/RecoverPassword/RecoverPassword'
 import { useAuthContext } from './contexts/Auth/AuthContext'
 import { useMemo } from 'react'
 import App from './App'
+import Login from './pages/Login/Login'
 
 
 function Routes() {
