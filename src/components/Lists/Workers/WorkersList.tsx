@@ -5,12 +5,8 @@ import { useWorkersContext } from "../../../contexts/Workers/WorkersContext";
 
 function WorkersList() {
 	const { openDeleteModal, openCreateModal } = useModalContext();
-	const {
-		setSelectedWorker,
-		workers,
-		cleanList,
-		attendCustomer,
-	} = useWorkersContext();
+	const { setSelectedWorker, workers, cleanList, attendCustomer } =
+		useWorkersContext();
 	return (
 		<div className="bg-slate-400 flex flex-col items-center justify-center flex-1">
 			<span>Ordem de atendimento</span>
@@ -52,9 +48,6 @@ function WorkersList() {
 					Limpar lista
 				</Button>
 			)}
-			<Button variant="contained" onClick={() => console.log(workers)}>
-					Console log
-				</Button>
 		</div>
 	);
 }

@@ -1,7 +1,13 @@
-import React, { ReactNode, createContext, useCallback, useEffect, useState } from "react";
+import React, {
+	ReactNode,
+	createContext,
+	useCallback,
+	useEffect,
+	useState,
+} from "react";
 import { Worker } from "../../types/Worker";
 import { faker } from "@faker-js/faker";
-import { collection, getDocs } from "firebase/firestore";
+import { addDoc, collection, getDocs } from "firebase/firestore";
 import { firestore } from "../../services/firebaseConfig";
 
 interface WorkersContextValue {
@@ -39,19 +45,22 @@ export default function WorkersContextProvider(
 
 	useEffect(() => {
 		const getWorkers = async () => {
-			const data = await getDocs(workersCollectionRef)
-			const dataFetched = data.docs.map((doc) => ({...doc.data()})) as Worker[]
-			setWorkers(dataFetched)
-		}
-		getWorkers()
-	},[workersCollectionRef])
+			const data = await getDocs(workersCollectionRef);
+			const dataFetched = data.docs.map((doc) => ({
+				...doc.data(),
+			})) as Worker[];
+			setWorkers(dataFetched);
+		};
+		getWorkers();
+	}, [workersCollectionRef]);
 
 	const addWorker = useCallback(
-		(name: string) => {
+		async (name: string) => {
 			const newWorker: Worker = { id: faker.string.uuid(), name };
+			await addDoc(workersCollectionRef, newWorker);
 			setWorkers([...workers, newWorker]);
 		},
-		[workers],
+		[workers, workersCollectionRef],
 	);
 
 	// const putFirstToLastPosition = useCallback(() => {
