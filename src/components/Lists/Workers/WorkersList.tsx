@@ -8,7 +8,6 @@ function WorkersList() {
 	const {
 		setSelectedWorker,
 		workers,
-		putFirstToLastPosition,
 		cleanList,
 		attendCustomer,
 	} = useWorkersContext();
@@ -38,11 +37,11 @@ function WorkersList() {
 					</li>
 				))}
 			</ol>
-			{workers.length > 0 && (
+			{/* {workers.length > 0 && (
 				<Button variant="contained" onClick={putFirstToLastPosition}>
 					Próximo
 				</Button>
-			)}
+			)} */}
 			{workers.length > 0 && (
 				<Button variant="contained" onClick={attendCustomer}>
 					Atender cliente
@@ -53,6 +52,9 @@ function WorkersList() {
 					Limpar lista
 				</Button>
 			)}
+			<Button variant="contained" onClick={() => console.log(workers)}>
+					Console log
+				</Button>
 		</div>
 	);
 }

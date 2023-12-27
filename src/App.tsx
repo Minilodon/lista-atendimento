@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 function App() {
 	const [signOut] = useSignOut(auth);
 	const navigate = useNavigate();
+	
 
 	const handleLogout = async () => {
 		try {

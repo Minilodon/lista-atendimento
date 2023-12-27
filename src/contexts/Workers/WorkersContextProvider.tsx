@@ -1,6 +1,8 @@
-import React, { ReactNode, createContext, useCallback, useState } from "react";
+import React, { ReactNode, createContext, useCallback, useEffect, useState } from "react";
 import { Worker } from "../../types/Worker";
 import { faker } from "@faker-js/faker";
+import { collection, getDocs } from "firebase/firestore";
+import { firestore } from "../../services/firebaseConfig";
 
 interface WorkersContextValue {
 	selectedWorker: Worker | undefined;
@@ -32,6 +34,17 @@ export default function WorkersContextProvider(
 	const [workers, setWorkers] = useState<Worker[]>([]);
 	const [workersInService, setWorkersInService] = useState<Worker[]>([]);
 	const [selectedWorker, setSelectedWorker] = useState<Worker>();
+
+	const workersCollectionRef = collection(firestore, "worker");
+
+	useEffect(() => {
+		const getWorkers = async () => {
+			const data = await getDocs(workersCollectionRef)
+			const dataFetched = data.docs.map((doc) => ({...doc.data()})) as Worker[]
+			setWorkers(dataFetched)
+		}
+		getWorkers()
+	},[workersCollectionRef])
 
 	const addWorker = useCallback(
 		(name: string) => {
