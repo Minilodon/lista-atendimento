@@ -3,7 +3,6 @@ import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { auth } from "../../services/firebaseConfig";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuthContext } from "../../contexts/Auth/AuthContext";
 
 function Register() {
 	const [email, setEmail] = useState("");
@@ -12,11 +11,11 @@ function Register() {
 	const [passwordError, setPasswordError] = useState("");
 	const [createUserWithEmailAndPassword, loading] =
 		useCreateUserWithEmailAndPassword(auth);
-	const { currentUser } = useAuthContext();
 	const navigate = useNavigate();
 
 	const handleCreateAccount = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
+		console.log(auth);
 		if (passwordConfirmation !== password) {
 			setPasswordError("As senhas não são iguais");
 			return;
@@ -69,7 +68,7 @@ function Register() {
 						/>
 						{!!passwordError && <span>{passwordError}</span>}
 						<button
-							type="button"
+							type="submit"
 							className="bg-primaryBlue text-white rounded-sm px-4 py-4 text-lg"
 						>
 							Criar conta
@@ -83,15 +82,6 @@ function Register() {
 								Faça login
 							</Link>
 						</div>
-						<button
-							type="button"
-							onClick={(e) => {
-								e.preventDefault();
-								console.log(currentUser);
-							}}
-						>
-							Veja current user
-						</button>
 					</>
 				)}
 			</form>

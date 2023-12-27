@@ -51,7 +51,7 @@ function Login() {
 							Esqueceu a sua senha?
 						</Link>
 						<button
-							type="button"
+							type="submit"
 							className="bg-primaryBlue text-white rounded-sm px-4 py-4 text-lg"
 						>
 							Login
