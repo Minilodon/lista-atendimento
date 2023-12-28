@@ -40,7 +40,10 @@ export default function DeleteModal(props: Props) {
 						<button
 							type="button"
 							onClick={() => {
-								deleteWorker(selectedWorker?.id || "");
+								if (!selectedWorker?.id) {
+									throw new Error(`Funcionário não selecionado`);
+								}
+								deleteWorker(selectedWorker.id);
 								resetWorker();
 							}}
 						>

@@ -36,3 +36,4 @@ If you are developing a production application, we recommend updating the config
 - BiomeJs (https://github.com/biomejs/biome)
 - Firebase (https://firebase.google.com/?hl=pt)
 - React Firebase Hooks (https://github.com/CSFrequency/react-firebase-hooks/blob/master/firestore/README.md)
+- Momentjs (https://momentjs.com/)

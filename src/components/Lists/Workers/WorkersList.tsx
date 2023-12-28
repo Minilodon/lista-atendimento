@@ -39,7 +39,10 @@ function WorkersList() {
 				</Button>
 			)} */}
 			{workers.length > 0 && (
-				<Button variant="contained" onClick={attendCustomer}>
+				<Button
+					variant="contained"
+					onClick={() => attendCustomer(workers[0].id, workers[0].name)}
+				>
 					Atender cliente
 				</Button>
 			)}

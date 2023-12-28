@@ -17,7 +17,7 @@ function ServiceList() {
 							aria-label="deletar"
 							size="small"
 							onClick={() => {
-								finishService(worker.id);
+								finishService(worker.id, worker.name);
 							}}
 							style={{ zIndex: 0 }}
 						>
