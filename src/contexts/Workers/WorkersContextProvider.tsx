@@ -13,6 +13,8 @@ import {
 	deleteDoc,
 	doc,
 	getDocs,
+	query,
+	where,
 } from "firebase/firestore";
 import { auth, firestore } from "../../services/firebaseConfig";
 import moment from "moment";
@@ -50,28 +52,52 @@ export default function WorkersContextProvider(
 
 	const currentUserId = auth?.currentUser?.uid;
 
-	const workersWorkingCollectionRef = useMemo(() => collection(firestore, "workerWorking"),[]);
-	const workersNotWorkingCollectionRef = useMemo(() => collection(firestore, "workerNotWorking"),[]);
+	const workersWorkingCollectionRef = useMemo(
+		() => collection(firestore, "workerWorking"),
+		[],
+	);
+	const workersNotWorkingCollectionRef = useMemo(
+		() => collection(firestore, "workerNotWorking"),
+		[],
+	);
 
 	const fetchWorkers = useCallback(async () => {
-		const workingData = await getDocs(workersWorkingCollectionRef);
+		const workingQuery = query(
+			workersWorkingCollectionRef,
+			where("manager", "==", currentUserId),
+		);
+
+		const notWorkingQuery = query(
+			workersNotWorkingCollectionRef,
+			where("manager", "==", currentUserId),
+		);
+
+		const workingData = await getDocs(workingQuery);
 		const workersWorking = workingData.docs.map((doc) => ({
 			...doc.data(),
 			id: doc.id,
 		})) as Worker[];
 
-		const notWorkingData = await getDocs(workersNotWorkingCollectionRef);
+		const notWorkingData = await getDocs(notWorkingQuery);
 		const workersNotWorking = notWorkingData.docs.map((doc) => ({
 			...doc.data(),
 			id: doc.id,
 		})) as Worker[];
 
-		const sortedWorkingWorkers = workersWorking.sort((a,b) => a.createdAt > b.createdAt ? 1 : -1)
-		const sortedNotWorkingWorkers = workersNotWorking.sort((a,b) => a.createdAt > b.createdAt ? 1 : -1)
+		const sortedWorkingWorkers = workersWorking.sort((a, b) =>
+			a.createdAt > b.createdAt ? 1 : -1,
+		);
+		const sortedNotWorkingWorkers = workersNotWorking.sort((a, b) =>
+			a.createdAt > b.createdAt ? 1 : -1,
+		);
 
 		setWorkers(sortedNotWorkingWorkers);
-		setWorkersInService(sortedWorkingWorkers)
-	},[workersNotWorkingCollectionRef, workersWorkingCollectionRef]);
+		setWorkersInService(sortedWorkingWorkers);
+	}, [
+		currentUserId,
+		workersNotWorkingCollectionRef,
+		workersWorkingCollectionRef,
+	]);
 
 	useEffect(() => {
 		fetchWorkers();
@@ -80,7 +106,7 @@ export default function WorkersContextProvider(
 	const addNotWorkingWorker = useCallback(
 		async (name: string) => {
 			if (!currentUserId) {
-				throw new Error(`Usuário não logado`);
+				throw new Error("Usuário não logado");
 			}
 			const newWorker: Omit<Worker, "id"> = {
 				name,
@@ -96,7 +122,7 @@ export default function WorkersContextProvider(
 	const addWorkingWorker = useCallback(
 		async (name: string) => {
 			if (!currentUserId) {
-				throw new Error(`Usuário não logado`);
+				throw new Error("Usuário não logado");
 			}
 			const newWorker: Omit<Worker, "id"> = {
 				name,
@@ -115,7 +141,7 @@ export default function WorkersContextProvider(
 			try {
 				const workerDoc = doc(firestore, "workerNotWorking", id);
 				await deleteDoc(workerDoc);
-				await addWorkingWorker(name)
+				await addWorkingWorker(name);
 				await fetchWorkers();
 			} catch (error) {
 				console.log(error);
@@ -168,7 +194,16 @@ export default function WorkersContextProvider(
 			attendCustomer,
 			finishService,
 		}),
-		[addNotWorkingWorker, attendCustomer, cleanList, deleteWorker, finishService, selectedWorker, workers, workersInService],
+		[
+			addNotWorkingWorker,
+			attendCustomer,
+			cleanList,
+			deleteWorker,
+			finishService,
+			selectedWorker,
+			workers,
+			workersInService,
+		],
 	);
 
 	return (
