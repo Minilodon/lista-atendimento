@@ -1,21 +1,39 @@
 import { TextField } from "@mui/material";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { auth } from "../../services/firebaseConfig";
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm } from "react-hook-form";
+import clsx from "clsx";
+
+interface FormInputs {
+	email: string;
+	password: string;
+}
+
+const schema = yup.object().shape({
+	email: yup.string().email("Email inválido").required("Campo obrigatório"),
+	password: yup.string().required("Campo obrigatório"),
+});
 
 function Login() {
-	const [email, setEmail] = useState("");
-	const [password, setPassword] = useState("");
 	const [signInWithEmailAndPassword, , loading] =
 		useSignInWithEmailAndPassword(auth);
 
-	const handleSignIn = async (e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm<FormInputs>({
+		resolver: yupResolver(schema),
+	});
+
+	const handleSignIn = async (data: FormInputs) => {
 		try {
-			await signInWithEmailAndPassword(email, password);
+			await signInWithEmailAndPassword(data.email, data.password);
 		} catch (error) {
 			console.log(error);
 		}
@@ -24,7 +42,7 @@ function Login() {
 		<div className="w-screen h-screen bg-primaryGreen flex justify-center items-center">
 			<form
 				className="bg-white px-4 py-4 flex flex-col gap-y-3 shadow-md rounded-sm min-h-[340px] min-w-[320px]"
-				onSubmit={handleSignIn}
+				onSubmit={handleSubmit(handleSignIn)}
 			>
 				<div className="flex flex-col gap-y-2 items-center">
 					<span className="self-center mb-2 text-lg">Fazer Login</span>
@@ -33,31 +51,42 @@ function Login() {
 							<Skeleton width={"100%"} height={56} />
 						</div>
 					) : (
-						<TextField
-							label="E-mail"
-							variant="outlined"
-							type="email"
-							color="primary"
-							value={email}
-							onChange={(e) => setEmail(e.target.value)}
-							style={{ marginBottom: "8px", width: "100%" }}
-							disabled={loading}
-						/>
+						<div className="flex flex-col w-full">
+							<TextField
+								label="E-mail"
+								variant="outlined"
+								type="email"
+								focused={!!errors.email?.message}
+								color={errors.email?.message ? "error" : "primary"}
+								style={{ marginBottom: "8px", width: "100%" }}
+								disabled={loading}
+								{...register("email")}
+							/>
+							<p className="text-red-500 text-sm mb-1">
+								{errors.email?.message}
+							</p>
+						</div>
 					)}
 					{loading ? (
 						<div className="w-full">
 							<Skeleton width={"100%"} height={56} />
 						</div>
 					) : (
-						<TextField
-							label="Senha"
-							variant="outlined"
-							type="password"
-							value={password}
-							onChange={(e) => setPassword(e.target.value)}
-							style={{ marginBottom: "8px", width: "100%" }}
-							disabled={loading}
-						/>
+						<div className="flex flex-col w-full">
+							<TextField
+								label="Senha"
+								variant="outlined"
+								type="password"
+								style={{ marginBottom: "8px", width: "100%" }}
+								disabled={loading}
+								{...register("password")}
+								focused={!!errors.password?.message}
+								color={errors.password?.message ? "error" : "primary"}
+							/>
+							<p className="text-red-500 text-sm mb-1">
+								{errors.password?.message}
+							</p>
+						</div>
 					)}
 					<div className="h-6 w-full flex items-center justify-center">
 						{loading ? null : (
@@ -72,7 +101,12 @@ function Login() {
 
 					<button
 						type="submit"
-						className="bg-blue-700 hover:bg-blue-500 text-white rounded-sm px-4 py-4 text-lg w-full transition"
+						className={clsx(
+							"text-white rounded-sm px-4 py-4 text-lg w-full transition",
+							loading
+								? "cursor-not-allowed bg-gray-400"
+								: "bg-blue-700 hover:bg-blue-500",
+						)}
 						disabled={loading}
 					>
 						Login

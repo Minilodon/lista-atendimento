@@ -40,6 +40,5 @@ If you are developing a production application, we recommend updating the config
 - React Loading Skeleton (https://www.npmjs.com/package/react-loading-skeleton)
 - React Hook form (https://react-hook-form.com/get-started)
 - Yup (https://www.npmjs.com/package/yup)
-
-
-## Mudança da develop
+- Hookform resolvers yup - (https://www.npmjs.com/package/@hookform/resolvers)
+- Clsx (https://www.npmjs.com/package/clsx)
