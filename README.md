@@ -38,6 +38,8 @@ If you are developing a production application, we recommend updating the config
 - React Firebase Hooks (https://github.com/CSFrequency/react-firebase-hooks/blob/master/firestore/README.md)
 - Momentjs (https://momentjs.com/)
 - React Loading Skeleton (https://www.npmjs.com/package/react-loading-skeleton)
+- React Hook form (https://react-hook-form.com/get-started)
+- Yup (https://www.npmjs.com/package/yup)
 
 
 ## Mudança da develop

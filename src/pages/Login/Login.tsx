@@ -9,7 +9,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 function Login() {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
-	const [signInWithEmailAndPassword, user, loading] =
+	const [signInWithEmailAndPassword, , loading] =
 		useSignInWithEmailAndPassword(auth);
 
 	const handleSignIn = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -20,7 +20,6 @@ function Login() {
 			console.log(error);
 		}
 	};
-	console.log(user);
 	return (
 		<div className="w-screen h-screen bg-primaryGreen flex justify-center items-center">
 			<form
