@@ -2,6 +2,7 @@ import Modal from "@mui/material/Modal";
 import { TextField } from "@mui/material";
 import { useState } from "react";
 import { useWorkersContext } from "../../../contexts/Workers/WorkersContext";
+import Button from "../../Button/Button";
 interface Props {
 	showModal: boolean;
 	closeModal: () => void;
@@ -38,8 +39,11 @@ export default function CreateModal(props: Props) {
 						/>
 						{error && <span>Campo obrigatório</span>}
 					</div>
-					<div className="flex items-center justify-between">
-						<button
+					<div className="flex items-center justify-between mt-4 gap-x-2">
+						<Button onClick={resetWorker} type="button" variant="secondary">
+							Cancelar
+						</Button>
+						<Button
 							type="button"
 							onClick={() => {
 								if (username.length <= 0) {
@@ -50,11 +54,8 @@ export default function CreateModal(props: Props) {
 								resetWorker();
 							}}
 						>
-							Sim
-						</button>
-						<button onClick={resetWorker} type="button">
-							Cancelar
-						</button>
+							Criar
+						</Button>
 					</div>
 				</div>
 			</Modal>

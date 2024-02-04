@@ -89,9 +89,9 @@ function Login() {
 						</div>
 					)}
 					<div className="h-6 w-full flex items-center justify-center">
-						{!loading && (
+						{/* {!loading && (
 							<NavLink to={"/recover-password"}>Esqueceu a sua senha?</NavLink>
-						)}
+						)} */}
 					</div>
 					<Button type="submit" loading={loading}>
 						Login

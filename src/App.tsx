@@ -22,10 +22,14 @@ function App() {
 	return (
 		<WorkersContextProvider>
 			<ModalContextProvider>
-				<div className="w-sceen h-screen bg-red-300 flex">
+				<div className="w-screen h-screen bg-primary-500 flex flex-col items-center justify-center overflow-hidden">
 					<WorkersList />
 					<ServiceList />
-					<button type="button" onClick={handleLogout}>
+					<button
+						type="button"
+						onClick={handleLogout}
+						className="absolute bottom-3 left-3 px-4 py-2 bg-red-500 rounded-md text-white"
+					>
 						Sair da conta
 					</button>
 				</div>

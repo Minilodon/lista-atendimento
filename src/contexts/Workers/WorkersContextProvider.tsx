@@ -27,10 +27,10 @@ interface WorkersContextValue {
 	addWorker: (name: string) => void;
 	// putFirstToLastPosition: () => void;
 	deleteWorker: (workerId: string) => void;
-	cleanList: () => void;
 	workersInService: Worker[];
 	attendCustomer: (id: string, name: string) => void;
 	finishService: (workerId: string, workerName: string) => void;
+	loading: boolean;
 }
 
 export const WorkersContext = createContext<WorkersContextValue>(
@@ -49,6 +49,7 @@ export default function WorkersContextProvider(
 	const [workers, setWorkers] = useState<Worker[]>([]);
 	const [workersInService, setWorkersInService] = useState<Worker[]>([]);
 	const [selectedWorker, setSelectedWorker] = useState<Worker>();
+	const [loading, setLoading] = useState(false);
 
 	const currentUserId = auth?.currentUser?.uid;
 
@@ -62,6 +63,7 @@ export default function WorkersContextProvider(
 	);
 
 	const fetchWorkers = useCallback(async () => {
+		setLoading(true);
 		const workingQuery = query(
 			workersWorkingCollectionRef,
 			where("manager", "==", currentUserId),
@@ -93,6 +95,7 @@ export default function WorkersContextProvider(
 
 		setWorkers(sortedNotWorkingWorkers);
 		setWorkersInService(sortedWorkingWorkers);
+		setLoading(false);
 	}, [
 		currentUserId,
 		workersNotWorkingCollectionRef,
@@ -176,11 +179,6 @@ export default function WorkersContextProvider(
 		},
 		[addNotWorkingWorker, fetchWorkers],
 	);
-
-	const cleanList = useCallback(() => {
-		setWorkers([]);
-	}, []);
-
 	const value: WorkersContextValue = React.useMemo(
 		() => ({
 			selectedWorker,
@@ -189,17 +187,17 @@ export default function WorkersContextProvider(
 			setWorkers,
 			addWorker: addNotWorkingWorker,
 			deleteWorker,
-			cleanList,
 			workersInService,
 			attendCustomer,
 			finishService,
+			loading,
 		}),
 		[
 			addNotWorkingWorker,
 			attendCustomer,
-			cleanList,
 			deleteWorker,
 			finishService,
+			loading,
 			selectedWorker,
 			workers,
 			workersInService,

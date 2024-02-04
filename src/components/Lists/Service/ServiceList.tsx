@@ -1,31 +1,17 @@
-import { Check } from "@mui/icons-material";
 import { useWorkersContext } from "../../../contexts/Workers/WorkersContext";
-import { Fab } from "@mui/material";
+import Button from "../../Button/Button";
+import { useModalContext } from "../../../contexts/Modal/ModalContext";
 
 function ServiceList() {
-	const { workersInService, finishService } = useWorkersContext();
+	const { workersInService } = useWorkersContext();
+	const { openWorkersDrawer } = useModalContext();
 	return (
-		<div className="bg-red-500 flex flex-col items-center justify-center flex-1">
-			<span>Em atendimento</span>
-			<ul>
-				{workersInService.map((worker, index) => (
-					<li key={worker.id} className="flex items-center gap-x-2">
-						<span>{index + 1}</span>
-						<span>{worker.name}</span>
-						<Fab
-							color="success"
-							aria-label="deletar"
-							size="small"
-							onClick={() => {
-								finishService(worker.id, worker.name);
-							}}
-							style={{ zIndex: 0 }}
-						>
-							<Check />
-						</Fab>
-					</li>
-				))}
-			</ul>
+		<div className="mt-5">
+			{workersInService.length > 0 && (
+				<Button onClick={openWorkersDrawer}>
+					Ver funcionários em atendimento (<b>{workersInService.length}</b>)
+				</Button>
+			)}
 		</div>
 	);
 }
