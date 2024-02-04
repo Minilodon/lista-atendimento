@@ -22,13 +22,13 @@ function App() {
 	return (
 		<WorkersContextProvider>
 			<ModalContextProvider>
-				<div className="w-sceen h-screen bg-primary-500 flex items-center justify-center">
+				<div className="w-screen h-screen bg-primary-500 flex flex-col items-center justify-center overflow-hidden">
 					<WorkersList />
-					{/* <ServiceList /> */}
+					<ServiceList />
 					<button
 						type="button"
 						onClick={handleLogout}
-						className="absolute bottom-0 left-0"
+						className="absolute bottom-3 left-3"
 					>
 						Sair da conta
 					</button>

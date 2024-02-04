@@ -2,6 +2,7 @@ import { useModalContext } from "../../../contexts/Modal/ModalContext";
 import { useWorkersContext } from "../../../contexts/Workers/WorkersContext";
 import Button from "../../Button/Button";
 import ListItem from "./components/ListItem";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 function WorkersList() {
 	const { openDeleteModal, openCreateModal } = useModalContext();
@@ -35,7 +36,9 @@ function WorkersList() {
 				</Button>
 			)} */}
 			<div className="mt-auto flex flex-col gap-y-2 mx-4 mb-4">
-				<Button onClick={openCreateModal}>Adicionar funcionário</Button>
+				<Button onClick={openCreateModal}>
+					Adicionar funcionário <AddCircleOutlineIcon />
+				</Button>
 				{workers.length > 0 && (
 					<Button
 						onClick={() => attendCustomer(workers[0].id, workers[0].name)}
