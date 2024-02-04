@@ -1,13 +1,13 @@
-import { Button } from "@mui/material";
 import { useModalContext } from "../../../contexts/Modal/ModalContext";
 import { useWorkersContext } from "../../../contexts/Workers/WorkersContext";
+import Button from "../../Button/Button";
 import ListItem from "./components/ListItem";
 
 function WorkersList() {
 	const { openDeleteModal, openCreateModal } = useModalContext();
 	const { setSelectedWorker, workers, attendCustomer } = useWorkersContext();
 	return (
-		<div className="bg-white flex flex-col items-center max-w-[380px] h-[600px] rounded-md shadow-lg">
+		<div className="bg-white flex flex-col items-center max-w-[380px] h-[500px] rounded-md shadow-lg">
 			<span className="self-center mb-2 text-lg mt-4 mx-4">
 				Ordem de atendimento
 			</span>
@@ -35,13 +35,11 @@ function WorkersList() {
 				</Button>
 			)} */}
 			<div className="mt-auto flex flex-col gap-y-2 mx-4 mb-4">
-				<Button variant="contained" onClick={openCreateModal}>
-					Adicionar funcionário
-				</Button>
+				<Button onClick={openCreateModal}>Adicionar funcionário</Button>
 				{workers.length > 0 && (
 					<Button
-						variant="contained"
 						onClick={() => attendCustomer(workers[0].id, workers[0].name)}
+						variant="secondary"
 					>
 						Atender cliente
 					</Button>

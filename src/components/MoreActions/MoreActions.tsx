@@ -44,7 +44,11 @@ export default function MoreActions(props: Props) {
 				}}
 			>
 				{actions.map((action) => (
-					<span onClick={action.action} key={action.label} className="m-2">
+					<span
+						onClick={action.action}
+						key={action.label}
+						className="m-2 cursor-pointer"
+					>
 						{action.label}
 					</span>
 				))}
