@@ -1,13 +1,13 @@
 import { TextField } from "@mui/material";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { auth } from "../../services/firebaseConfig";
-import { Link } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import clsx from "clsx";
+import Button from "../../components/Button/Button";
+import NavLink from "../../components/NavLink/NavLink";
 
 interface FormInputs {
 	email: string;
@@ -39,7 +39,7 @@ function Login() {
 		}
 	};
 	return (
-		<div className="w-screen h-screen bg-primaryGreen flex justify-center items-center">
+		<div className="w-screen h-screen bg-primary-500 flex justify-center items-center">
 			<form
 				className="bg-white px-4 py-4 flex flex-col gap-y-3 shadow-md rounded-sm min-h-[340px] min-w-[320px]"
 				onSubmit={handleSubmit(handleSignIn)}
@@ -89,38 +89,18 @@ function Login() {
 						</div>
 					)}
 					<div className="h-6 w-full flex items-center justify-center">
-						{loading ? null : (
-							<Link
-								to={"/recover-password"}
-								className="text-center hover:text-blue-500 transition text-sm"
-							>
-								Esqueceu a sua senha?
-							</Link>
+						{!loading && (
+							<NavLink to={"/recover-password"}>Esqueceu a sua senha?</NavLink>
 						)}
 					</div>
-
-					<button
-						type="submit"
-						className={clsx(
-							"text-white rounded-sm px-4 py-4 text-lg w-full transition",
-							loading
-								? "cursor-not-allowed bg-gray-400"
-								: "bg-blue-700 hover:bg-blue-500",
-						)}
-						disabled={loading}
-					>
+					<Button type="submit" loading={loading}>
 						Login
-					</button>
+					</Button>
 					<div className="flex gap-x-2 h-6 w-full items-center justify-center">
-						{loading ? null : (
+						{!loading && (
 							<>
 								<span className="text-sm">Não possui uma conta?</span>
-								<Link
-									to={"/register"}
-									className="text-primaryBlue underline hover:text-blue-500 transition text-sm"
-								>
-									Crie sua conta aqui
-								</Link>
+								<NavLink to={"/register"}>Crie sua conta aqui</NavLink>
 							</>
 						)}
 					</div>
