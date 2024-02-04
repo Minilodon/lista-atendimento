@@ -1,36 +1,32 @@
-import { Button, Fab } from "@mui/material";
-import ClearIcon from "@mui/icons-material/Clear";
+import { Button } from "@mui/material";
 import { useModalContext } from "../../../contexts/Modal/ModalContext";
 import { useWorkersContext } from "../../../contexts/Workers/WorkersContext";
+import ListItem from "./components/ListItem";
 
 function WorkersList() {
 	const { openDeleteModal, openCreateModal } = useModalContext();
-	const { setSelectedWorker, workers, cleanList, attendCustomer } =
-		useWorkersContext();
+	const { setSelectedWorker, workers, attendCustomer } = useWorkersContext();
 	return (
-		<div className="bg-slate-400 flex flex-col items-center justify-center flex-1">
-			<span>Ordem de atendimento</span>
-			<Button variant="contained" onClick={openCreateModal}>
-				Adicionar funcionário
-			</Button>
-			<ol>
+		<div className="bg-white flex flex-col items-center max-w-[380px] h-[600px] rounded-md shadow-lg">
+			<span className="self-center mb-2 text-lg mt-4 mx-4">
+				Ordem de atendimento
+			</span>
+			<div className="w-full border mb-2" />
+			<ol className="w-full">
 				{workers.map((worker, index) => (
-					<li key={worker.id} className="flex items-center gap-x-2">
-						<span>{index + 1}</span>
-						<span>{worker.name}</span>
-						<Fab
-							color="error"
-							aria-label="deletar"
-							size="small"
-							onClick={() => {
-								setSelectedWorker(worker);
-								openDeleteModal();
-							}}
-							style={{ zIndex: 0 }}
-						>
-							<ClearIcon />
-						</Fab>
-					</li>
+					<ListItem
+						name={worker.name}
+						index={index}
+						actions={[
+							{
+								label: "Deletar",
+								action: () => {
+									setSelectedWorker(worker);
+									openDeleteModal();
+								},
+							},
+						]}
+					/>
 				))}
 			</ol>
 			{/* {workers.length > 0 && (
@@ -38,19 +34,19 @@ function WorkersList() {
 					Próximo
 				</Button>
 			)} */}
-			{workers.length > 0 && (
-				<Button
-					variant="contained"
-					onClick={() => attendCustomer(workers[0].id, workers[0].name)}
-				>
-					Atender cliente
+			<div className="mt-auto flex flex-col gap-y-2 mx-4 mb-4">
+				<Button variant="contained" onClick={openCreateModal}>
+					Adicionar funcionário
 				</Button>
-			)}
-			{workers.length > 0 && (
-				<Button variant="contained" onClick={cleanList}>
-					Limpar lista
-				</Button>
-			)}
+				{workers.length > 0 && (
+					<Button
+						variant="contained"
+						onClick={() => attendCustomer(workers[0].id, workers[0].name)}
+					>
+						Atender cliente
+					</Button>
+				)}
+			</div>
 		</div>
 	);
 }

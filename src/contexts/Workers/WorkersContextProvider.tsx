@@ -27,7 +27,6 @@ interface WorkersContextValue {
 	addWorker: (name: string) => void;
 	// putFirstToLastPosition: () => void;
 	deleteWorker: (workerId: string) => void;
-	cleanList: () => void;
 	workersInService: Worker[];
 	attendCustomer: (id: string, name: string) => void;
 	finishService: (workerId: string, workerName: string) => void;
@@ -176,11 +175,6 @@ export default function WorkersContextProvider(
 		},
 		[addNotWorkingWorker, fetchWorkers],
 	);
-
-	const cleanList = useCallback(() => {
-		setWorkers([]);
-	}, []);
-
 	const value: WorkersContextValue = React.useMemo(
 		() => ({
 			selectedWorker,
@@ -189,7 +183,6 @@ export default function WorkersContextProvider(
 			setWorkers,
 			addWorker: addNotWorkingWorker,
 			deleteWorker,
-			cleanList,
 			workersInService,
 			attendCustomer,
 			finishService,
@@ -197,7 +190,6 @@ export default function WorkersContextProvider(
 		[
 			addNotWorkingWorker,
 			attendCustomer,
-			cleanList,
 			deleteWorker,
 			finishService,
 			selectedWorker,
