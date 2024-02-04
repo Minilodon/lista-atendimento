@@ -2,6 +2,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { useWorkersContext } from "../../../contexts/Workers/WorkersContext";
+import Button from "../../Button/Button";
 
 const style = {
 	position: "absolute",
@@ -36,8 +37,11 @@ export default function DeleteModal(props: Props) {
 					<Typography id="modal-modal-title" variant="h6" component="h2">
 						Remover {selectedWorker?.name} da lista?
 					</Typography>
-					<div className="flex items-center justify-between">
-						<button
+					<div className="flex items-center justify-between gap-x-2 mt-4">
+						<Button onClick={resetWorker} type="button" variant="secondary">
+							Cancelar
+						</Button>
+						<Button
 							type="button"
 							onClick={() => {
 								if (!selectedWorker?.id) {
@@ -48,10 +52,7 @@ export default function DeleteModal(props: Props) {
 							}}
 						>
 							Sim
-						</button>
-						<button onClick={resetWorker} type="button">
-							Cancelar
-						</button>
+						</Button>
 					</div>
 				</Box>
 			</Modal>
